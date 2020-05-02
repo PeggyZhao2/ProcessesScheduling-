@@ -1,0 +1,86 @@
+CS 2200 Spring 2020
+Project 4
+
+Name: Peiqi Zhao    
+GT Username: pzhao73
+
+Problem 1B
+----------
+            context_switch()        total execution time        total time spending in READY queue
+1 cpu           99                          67.6 s                          389.4 s
+2 cpu           106                         36.2 s                          92.7 s
+4 cpu           183                         33.3 s                          2.0 s
+
+
+
+		
+		80|
+		70|    .   
+		60|    
+		50|
+		40|          .
+		30|                      .
+		20|
+		10|________________________
+		       1.    2.    3.    4 
+
+As the graph showing, as the number of cpu increases, the rate of decrease of execution time slows down. Because the rate of
+decreasing is not constant, there is NOT a linear relationship between number of CPUs and the total execution time. Although
+the increase number of CPUs allows more threads running synchronously in the background, the threads share some global variables.
+When two threads want to access(read or write) the same global variable at the same time, one thread has to access it first while
+the other thread is blocked and waiting on this global variable. Therefore, the total execution time is not as efficient as the idealized
+situation.
+
+Problem 2B
+----------
+                context_switch()        total execution time        total time spending in READY queue
+    800ms:          130                         67.6 s                      327.8s
+    600ms:          155                         67.6 s                      314.0s
+    400ms:          203                         67.6 s                      300.0s
+    200ms:          362                         67.5 s                      285.3s
+
+The total time the process spending in the READY queue is 327.8s, 314.0s, 300.0s, 285.3s respectively to timeslice of 800ms, 600ms, 400ms, and 200ms.
+Therefore, the observation is that the total time the process been waiting in the READY queue is decreasing with shorter timeslice. However, using too
+short of a timeslice is not the best solution in real life because every context_switch(this happens when a process are preempted and put back into READY
+queue) takes time. The accumulated context switching time in real life will create overhead.
+
+
+
+Problem 3B
+----------
+The priority scheduler can implement a mechanism called aging, which is once the wait time of a process exceed a threadhold,
+the scheduler overwrite the assigned priority and uses "age" of the process as a priority. "Older" process will have higher
+priority in the newly created priority rules.
+
+                total waiting time
+FIFO                391.6 s
+RR                  289.7 s
+Priority            234.5 s
+
+According to the chart, the priority scheduler has the lowest total waiting time.
+
+FIFO could happen to have a large process come in first and block all the other processes to create a convey effect and increase waiting time in general.
+For RoundRobin, each process will run for a fixed amoung of time then goes into the ready queue to wait, so the probability for a
+process to wait is roughly the same. Therefore, a large process won't block the program and the total waiting time is better than FIFO on average.
+For Priority, it has the shortest waiting time because the shorter processes tend to have higher priority. Since the processes with higher priority
+always finish first and terminate, there will be less process in the ready queue waiting as time going. Because there are less number of processes waiting,
+the total waiting time is relatively smaller than other algorithms.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
